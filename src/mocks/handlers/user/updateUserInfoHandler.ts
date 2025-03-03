@@ -12,11 +12,11 @@ import { UserList } from '@/mocks/db/models/UserList';
 
 export const updateUserInfoHandler = http.patch(
   `${import.meta.env.VITE_API_BASE_URL}/users/:id`,
-  async ({ params, json }) => {
+  async ({ params, request }) => {
     await delay(300);
 
     const userId = Number(params.id);
-    const { name } = await json<{ name: string }>();
+    const { name } = await request.json();
 
     if (!name) {
       return HttpResponse.status(400).json({
