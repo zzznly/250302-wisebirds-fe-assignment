@@ -1,4 +1,3 @@
-import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { worker } from './mocks/browser';
 
@@ -20,9 +19,5 @@ const container = document.getElementById('root')!;
 const root = createRoot(container);
 
 enableMocking().then(() => {
-  root.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  );
+  root.render(<App />);
 });
