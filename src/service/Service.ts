@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-
+import { useAppStore } from '@/stores';
 export default class Service {
   service: AxiosInstance;
 
@@ -29,6 +29,14 @@ export default class Service {
 
   private async handleResponseError(error: AxiosError): Promise<never> {
     console.error('Response error:', error);
+
+    let message = '에러가 발생했습니다.';
+    if (error.response?.data && (error.response.data as any).message) {
+      message = (error.response.data as any).message;
+    }
+    // 전역 에러 스토어에 에러 메시지 저장 -> 모달에서 감지
+    useAppStore.getState().setError(message);
+
     return Promise.reject(error);
   }
 }
