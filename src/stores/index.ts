@@ -1,34 +1,10 @@
 import { create } from 'zustand';
-import UserService from '@/service/user/UserService';
-import { USER_ROLES } from '@/constants';
+import { createUserSlice, UserSlice } from './user';
+import { createErrorSlice, ErrorSlice } from './error';
 
-interface UserInfo {
-  email: string;
-  name: string;
-  company: {
-    name: string;
-  };
-}
+export type AppState = UserSlice & ErrorSlice;
 
-interface AppStore {
-  userInfo?: UserInfo;
-  userRole: string;
-  setUserRole: (role: string) => void;
-  setUserInfo: (userInfo: UserInfo) => void;
-  fetchUserInfo: () => Promise<void>;
-}
-
-export const useAppStore = create<AppStore>((set, get) => ({
-  userInfo: undefined,
-  userRole: USER_ROLES[0].value,
-  setUserRole: (role: string) => set({ userRole: role }),
-  setUserInfo: (userInfo: UserInfo) => set({ userInfo }),
-  fetchUserInfo: async () => {
-    try {
-      const response = await UserService.getUserInfo();
-      set({ userInfo: response.data });
-    } catch (error) {
-      console.error('Error fetching user info:', error);
-    }
-  },
+export const useAppStore = create<AppState>()((...args) => ({
+  ...createUserSlice(...args),
+  ...createErrorSlice(...args),
 }));
