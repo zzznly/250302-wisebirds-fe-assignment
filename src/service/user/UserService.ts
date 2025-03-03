@@ -7,11 +7,15 @@ class UserService extends Service {
   async getUserList(page: number = 0, size: number = 25) {
     return await this.service.get<ListData<UserListItem>>('/users', { params: { page, size } });
   }
-  async createUser() {
-    return await this.service.post('/users');
+  async createUser(data: FormData) {
+    return await this.service.post('/users', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   }
-  async updateUser(id: number) {
-    return await this.service.patch(`/users/${id}`);
+  async updateUser(id: number, data: { name: string }) {
+    return await this.service.patch(`/users/${id}`, data);
   }
   async checkUserEmail(email: string) {
     return await this.service.get(`/users/${email}/exists`);
