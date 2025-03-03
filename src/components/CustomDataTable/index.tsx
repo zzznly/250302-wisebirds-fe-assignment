@@ -45,6 +45,7 @@ export default function CustomDataTable({
       rows={rows}
       columns={columns}
       paginationModel={paginationModel}
+      disableRowSelectionOnClick
       onPaginationModelChange={model => {
         setPaginationModel(model);
         onPageChange?.(model.page);
@@ -52,7 +53,7 @@ export default function CustomDataTable({
       slots={{
         pagination: () => (
           <Pagination
-            sx={{ mx: 'auto', mt: 2 }}
+            sx={{ m: 'auto' }}
             page={paginationModel.page + 1}
             count={totalPagesCount}
             onChange={handlePaginationChange}
