@@ -11,7 +11,7 @@ export const getCampaignListHandler = http.get(`${import.meta.env.VITE_API_BASE_
   const end = start + size;
 
   const response = {
-    contents: CampaignData.content.slice(start, end),
+    content: CampaignData.content.slice(start, end),
     size: CampaignData.size,
     total_elements: CampaignData.total_elements,
     total_pages: CampaignData.total_pages,
