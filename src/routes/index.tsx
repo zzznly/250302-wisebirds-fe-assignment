@@ -3,8 +3,8 @@ import { Outlet, ScrollRestoration, createBrowserRouter } from 'react-router-dom
 import MainLayout from '@/layouts/MainLayout';
 import Loading from '@/components/Loading';
 
-const Home = lazy(() => import('@/pages/Home'));
-const Page = lazy(() => import('@/pages/Page'));
+const CampaignPage = lazy(() => import('@/pages/Campaign'));
+const UserPage = lazy(() => import('@/pages/User'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 
 const Root = () => {
@@ -23,8 +23,8 @@ const routes = [
     path: '/',
     element: <Root />,
     children: [
-      { index: true, element: <Home /> },
-      { path: 'page', element: <Page /> },
+      { index: true, element: <CampaignPage /> },
+      { path: 'user', element: <UserPage /> },
     ],
   },
   { path: '*', element: <NotFound /> },
