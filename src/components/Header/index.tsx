@@ -8,7 +8,7 @@ import Container from '@mui/material/Container';
 import SelectBox from '@/components/SelectBox';
 import { USER_ROLES } from '@/constants';
 import { useAppStore } from '@/stores';
-import BasicButton from '@/components/BasicButton';
+import CustomButton from '@/components/CustomButton';
 
 const pages = [
   { name: '캠페인', path: '/' },
@@ -21,9 +21,9 @@ export default function Header() {
   const Navigation = () => (
     <>
       {pages.map(page => (
-        <BasicButton key={page.name} href={page.path}>
+        <CustomButton key={page.name} href={page.path}>
           {page.name}
-        </BasicButton>
+        </CustomButton>
       ))}
     </>
   );
@@ -40,7 +40,7 @@ export default function Header() {
 
     return (
       <>
-        <BasicButton onClick={handleUserMenuOpen}>{userInfo?.email || 'Loading...'}</BasicButton>
+        <CustomButton onClick={handleUserMenuOpen}>{userInfo?.email || 'Loading...'}</CustomButton>
         <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleUserMenuClose}>
           <Box sx={{ px: 2, textAlign: 'center' }}>
             <Typography>{userInfo?.name}</Typography>
