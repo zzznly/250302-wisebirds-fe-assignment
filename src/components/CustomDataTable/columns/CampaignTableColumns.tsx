@@ -18,20 +18,26 @@ export const CampaignTableColumns = (
     {
       field: 'enabled',
       headerName: '상태',
-      width: 150,
+      width: 100,
       renderCell: renderEnabledSwitch,
+      align: 'center',
+      headerAlign: 'center',
     },
-    { field: 'name', headerName: '캠페인명', width: 150 },
+    { field: 'name', headerName: '캠페인명', width: 150, align: 'left', headerAlign: 'left' },
     {
       field: 'campaign_objective',
       headerName: '캠페인 목적',
       width: 150,
-      valueFormatter: ({ value }) => CAMPAIGN_OBJECTIVES[value] ?? '',
+      valueFormatter: params => {
+        return CAMPAIGN_OBJECTIVES[params] ?? '';
+      },
+      align: 'left',
+      headerAlign: 'left',
     },
-    { field: 'impressions', headerName: '노출수', width: 150 },
-    { field: 'clicks', headerName: '클릭수', width: 150 },
-    { field: 'ctr', headerName: 'CTR', width: 150 },
-    { field: 'video_views', headerName: '동영상조회수', width: 150 },
-    { field: 'vtr', headerName: 'VTR', width: 150 },
+    { field: 'impressions', headerName: '노출수', width: 150, align: 'right', headerAlign: 'right' },
+    { field: 'clicks', headerName: '클릭수', width: 150, align: 'right', headerAlign: 'right' },
+    { field: 'ctr', headerName: 'CTR', width: 150, align: 'right', headerAlign: 'right' },
+    { field: 'video_views', headerName: '동영상조회수', width: 150, align: 'right', headerAlign: 'right' },
+    { field: 'vtr', headerName: 'VTR', width: 150, align: 'right', headerAlign: 'right' },
   ];
 };
