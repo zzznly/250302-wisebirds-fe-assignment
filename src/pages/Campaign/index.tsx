@@ -10,16 +10,15 @@ import CustomDataTable from '@/components/CustomDataTable';
 export default function CampaignPage() {
   const { userRole } = useAppStore();
   const [campaignData, setCampaignData] = useState<ListData<CampaignListItem>>();
+  const [page, setPage] = useState(0);
 
   const handleSwitchChange = (id: number, checked: boolean) => {
     updateCampaignEnabledState(id, checked);
   };
 
-  const fetchCampaignList = async () => {
+  const fetchCampaignList = async (page: number, size: number = 25) => {
     try {
-      const response = await CampaignService.getCampaignList();
-      console.log('fetchCampaignList:', response.data);
-
+      const response = await CampaignService.getCampaignList(page, size);
       const transformedContents = response.data.content.map((item: CampaignListItem) => ({
         ...item,
         impressions: item.impressions.toLocaleString(),
@@ -41,15 +40,15 @@ export default function CampaignPage() {
   const updateCampaignEnabledState = async (id: number, checked: boolean) => {
     try {
       await CampaignService.updateCampaign(id, { enabled: checked });
-      await fetchCampaignList();
+      await fetchCampaignList(page);
     } catch (error) {
       console.error('Error updating campaign enabled state:', error);
     }
   };
 
   useEffect(() => {
-    fetchCampaignList();
-  }, []);
+    fetchCampaignList(page);
+  }, [page]);
 
   const tableColumns = CampaignTableColumns(userRole, handleSwitchChange);
   const tableRows = campaignData?.content ?? [];
@@ -59,7 +58,12 @@ export default function CampaignPage() {
       <Typography variant="h6" sx={{ mt: 8, py: 2 }}>
         캠페인 관리
       </Typography>
-      <CustomDataTable columns={tableColumns} rows={tableRows} totalPagesCount={campaignData?.total_pages} />
+      <CustomDataTable
+        columns={tableColumns}
+        rows={tableRows}
+        totalPagesCount={campaignData?.total_pages}
+        onPageChange={newPage => setPage(newPage)}
+      />
     </Container>
   );
 }
