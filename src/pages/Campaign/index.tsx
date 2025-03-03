@@ -1,6 +1,5 @@
 import CampaignService from '@/service/campaigns/CampaignService';
 import { Typography } from '@mui/material';
-import { Container } from '@mui/system';
 import { useEffect, useState } from 'react';
 import { CAMPAIGN_OBJECTIVES } from '@/constants';
 import { useAppStore } from '@/stores';
@@ -54,8 +53,8 @@ export default function CampaignPage() {
   const tableRows = campaignData?.content ?? [];
 
   return (
-    <Container>
-      <Typography variant="h6" sx={{ mt: 8, py: 2 }}>
+    <>
+      <Typography variant="h6" sx={{ py: 2 }}>
         캠페인 관리
       </Typography>
       <CustomDataTable
@@ -64,6 +63,6 @@ export default function CampaignPage() {
         totalPagesCount={campaignData?.total_pages}
         onPageChange={newPage => setPage(newPage)}
       />
-    </Container>
+    </>
   );
 }
