@@ -79,7 +79,7 @@ export default function UserPage() {
       />
       <UpdateUserDialog
         open={isEditDialogOpen}
-        onCancel={closeEditDialog}
+        onClose={closeEditDialog}
         userEditData={userEditData}
         onUpdateUser={updateUserData}
       />
