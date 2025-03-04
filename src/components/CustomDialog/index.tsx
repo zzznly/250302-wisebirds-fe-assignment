@@ -1,42 +1,48 @@
-import Button from '@mui/material/Button';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-// import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import CustomButton from '../CustomButton';
 
 export interface CustomDialogProps extends DialogProps {
   title?: string & React.ReactNode;
   cancelText?: string;
   confirmText?: string;
   onConfirm?: () => void;
-  onCancel?: () => void;
+  onClose?: () => void;
   renderActions?: () => React.ReactNode;
+  closeOnConfirm?: boolean;
 }
 
 export default function CustomDialog(props: CustomDialogProps) {
   const {
+    open,
     title,
     onClose,
     onConfirm,
-    onCancel,
-    children,
+    closeOnConfirm = true,
     cancelText = '취소',
     confirmText = '확인',
+    children,
     renderActions,
     ...rest
   } = props;
 
-  const handleClose = () => {
-    onCancel?.();
-  };
-  const handleConfirm = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleConfirm = () => {
+    if (closeOnConfirm) {
+      onClose?.();
+    }
     onConfirm?.();
-    onClose?.(e, 'backdropClick');
+  };
+
+  const handleClose = () => {
+    onClose?.();
   };
 
   return (
     <Dialog
+      open={open}
+      onClose={onClose}
       sx={{
         width: '100%',
       }}
@@ -57,16 +63,12 @@ export default function CustomDialog(props: CustomDialogProps) {
           renderActions()
         ) : (
           <>
-            {onCancel && (
-              <Button onClick={handleClose} variant="outlined">
-                {cancelText}
-              </Button>
-            )}
-            {onConfirm && (
-              <Button onClick={handleConfirm} variant="contained" type="submit">
-                {confirmText}
-              </Button>
-            )}
+            <CustomButton onClick={handleClose} variant="outlined">
+              {cancelText}
+            </CustomButton>
+            <CustomButton onClick={handleConfirm} variant="contained" type="submit">
+              {confirmText}
+            </CustomButton>
           </>
         )}
       </DialogActions>

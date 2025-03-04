@@ -1,16 +1,12 @@
-import { Button } from '@mui/material';
-import { ButtonHTMLAttributes } from 'react';
+import { Button, ButtonProps } from '@mui/material';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface CustomButtonProps extends ButtonProps {
   children: React.ReactNode;
-  color?: string;
-  href?: string;
-  variant?: 'contained' | 'outlined' | 'text';
 }
 
-export default function CustomButton({ color = 'white', children, ...props }: ButtonProps) {
+export default function CustomButton({ children, ...props }: CustomButtonProps) {
   return (
-    <Button {...props} sx={{ p: 0, color, textTransform: 'none', height: '40px' }}>
+    <Button {...props} sx={{ p: 0, textTransform: 'none', height: '40px' }}>
       {children}
     </Button>
   );

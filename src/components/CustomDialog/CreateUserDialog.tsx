@@ -122,7 +122,8 @@ export default function CreateUserDialog({ onClose, onCreateUser, onConfirm, ...
       data.append(key, value);
     });
 
-    onCreateUser(data);
+    await onCreateUser(data);
+    resetFormData();
   };
 
   const resetFormData = () => {
@@ -131,12 +132,7 @@ export default function CreateUserDialog({ onClose, onCreateUser, onConfirm, ...
   };
 
   return (
-    <CustomDialog
-      title="사용자 생성"
-      onClose={resetFormData}
-      onConfirm={handleSubmit}
-      {...rest}
-    >
+    <CustomDialog title="사용자 생성" closeOnConfirm={false} onConfirm={handleSubmit} onClose={onClose} {...rest}>
       {/* 아이디(이메일) */}
       <FormGroup sx={{ mt: 1 }}>
         <FormLabel required sx={{ display: 'block', mb: 0.5 }}>

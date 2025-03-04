@@ -7,7 +7,7 @@ interface UpdateUserDialogProps extends CustomDialogProps {
   onUpdateUser: (newName: string) => void;
 }
 
-export default function UpdateUserDialog({ userEditData, onUpdateUser, ...rest }: UpdateUserDialogProps) {
+export default function UpdateUserDialog({ userEditData, onClose, onUpdateUser, ...rest }: UpdateUserDialogProps) {
   const [newName, setNewName] = useState<string>(userEditData?.name || '');
   const [error, setError] = useState<string>('');
 
@@ -16,8 +16,8 @@ export default function UpdateUserDialog({ userEditData, onUpdateUser, ...rest }
   }, [userEditData]);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewName(e.target.value);
     setError('');
+    setNewName(e.target.value);
   };
 
   const validateName = () => {
@@ -35,11 +35,17 @@ export default function UpdateUserDialog({ userEditData, onUpdateUser, ...rest }
   const handleConfirm = async () => {
     const isValid = validateName();
     if (!isValid) return;
-    onUpdateUser(newName);
+    await onUpdateUser(newName);
+    resetFormData();
+  };
+
+  const resetFormData = () => {
+    setNewName(userEditData?.name || '');
+    setError('');
   };
 
   return (
-    <CustomDialog title="사용자 수정" onConfirm={handleConfirm} {...rest}>
+    <CustomDialog title="사용자 수정" closeOnConfirm={false} onConfirm={handleConfirm} onClose={onClose} {...rest}>
       <FormGroup>
         <FormLabel required sx={{ display: 'block', mb: 0.5 }}>
           아이디
