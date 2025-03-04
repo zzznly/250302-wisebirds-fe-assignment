@@ -30,6 +30,7 @@ export default function UserPage() {
       await fetchUserList(page);
       alert('사용자 정보 수정이 완료되었습니다.');
     } catch (error) {
+      alert('사용자 정보 수정이 실패했습니다.');
       console.error('Error updating user:', error);
     }
   };
@@ -41,6 +42,7 @@ export default function UserPage() {
       await fetchUserList(page);
       alert('사용자 생성이 완료되었습니다.');
     } catch (error) {
+      alert('사용자 생성이 실패했습니다.');
       console.error('Error creating user:', error);
     }
   };

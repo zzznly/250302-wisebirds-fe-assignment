@@ -40,8 +40,10 @@ export default function CampaignPage() {
     try {
       await CampaignService.updateCampaign(id, { enabled: checked });
       await fetchCampaignList(page);
+      alert('캠페인 상태 변경이 완료되었습니다.');
     } catch (error) {
       console.error('Error updating campaign enabled state:', error);
+      alert('캠페인 상태 변경이 실패했습니다.');
     }
   };
 
