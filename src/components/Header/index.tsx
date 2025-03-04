@@ -21,7 +21,7 @@ export default function Header() {
   const Navigation = () => (
     <>
       {pages.map(page => (
-        <CustomButton key={page.name} href={page.path}>
+        <CustomButton key={page.name} href={page.path} color="white">
           {page.name}
         </CustomButton>
       ))}
