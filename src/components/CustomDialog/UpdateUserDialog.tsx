@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { FormGroup, FormLabel, TextField, Typography } from '@mui/material';
+import { FormGroup, FormLabel, Typography } from '@mui/material';
 import CustomDialog, { CustomDialogProps } from '@/components/CustomDialog';
+import CustomFormInput from '../CustomFormInput';
 
 interface UpdateUserDialogProps extends CustomDialogProps {
   userEditData: UserListItem | undefined;
@@ -52,23 +53,17 @@ export default function UpdateUserDialog({ userEditData, onClose, onUpdateUser, 
         </FormLabel>
         <Typography>{userEditData?.email}</Typography>
       </FormGroup>
-      <FormGroup sx={{ mt: 2 }}>
-        <FormLabel required sx={{ display: 'block', mb: 0.5 }}>
-          이름
-        </FormLabel>
-        <TextField
-          required
-          id="name"
-          name="name"
-          type="text"
-          fullWidth
-          variant="outlined"
-          value={newName}
-          error={!!error}
-          helperText={error}
-          onChange={handleNameChange}
-        />
-      </FormGroup>
+      <CustomFormInput
+        label="이름"
+        name="name"
+        placeholder="이름을 입력하세요."
+        type="text"
+        value={newName}
+        onChange={handleNameChange}
+        error={!!error}
+        helperText={error}
+        required
+      />
     </CustomDialog>
   );
 }
