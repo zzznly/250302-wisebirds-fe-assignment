@@ -1,29 +1,20 @@
-import { useEffect } from 'react';
 import { useAppStore } from '@/stores';
 import { DialogContentText } from '@mui/material';
 import useDialog from '@/hooks/useDialog';
 import BaseDialog from './BaseDialog';
 
 export default function GlobalErrorDialog() {
-  const { error, setError } = useAppStore();
-  const { isDialogOpen, openDialog, closeDialog } = useDialog();
-
-  useEffect(() => {
-    if (error) {
-      openDialog();
-    } else {
-      closeDialog();
-    }
-  }, [error]);
+  const { globalErrorMessage, setGlobalErrorMessage } = useAppStore();
+  const { closeDialog } = useDialog();
 
   const handleClose = () => {
-    setError('');
+    setGlobalErrorMessage(null);
     closeDialog();
   };
 
   return (
-    <BaseDialog open={isDialogOpen} onConfirm={handleClose} onClose={handleClose}>
-      <DialogContentText dangerouslySetInnerHTML={{ __html: error || 'Error' }} />
+    <BaseDialog open={!!globalErrorMessage} onConfirm={handleClose} onClose={handleClose}>
+      <DialogContentText dangerouslySetInnerHTML={{ __html: globalErrorMessage || '' }} />
     </BaseDialog>
   );
 }

@@ -1,11 +1,11 @@
 import { StateCreator } from 'zustand';
 
 export interface ErrorSlice {
-  error: string | null;
-  setError: (message: string | null) => void;
+  globalErrorMessage: string | null;
+  setGlobalErrorMessage: (message: string | null) => void;
 }
 
 export const createErrorSlice: StateCreator<ErrorSlice> = (set, get) => ({
-  error: null,
-  setError: (message: string | null) => set({ error: message }),
+  globalErrorMessage: null,
+  setGlobalErrorMessage: (message: string | null) => set({ globalErrorMessage: message }),
 });
