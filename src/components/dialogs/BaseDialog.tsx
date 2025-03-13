@@ -4,7 +4,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import CustomButton from '../CustomButton';
 
-export interface CustomDialogProps extends DialogProps {
+export interface BaseDialogProps extends DialogProps {
   title?: string & React.ReactNode;
   cancelText?: string;
   confirmText?: string;
@@ -14,10 +14,10 @@ export interface CustomDialogProps extends DialogProps {
   closeOnConfirm?: boolean;
 }
 
-export default function CustomDialog(props: CustomDialogProps) {
+const BaseDialog = (props: BaseDialogProps) => {
   const {
-    open,
     title,
+    open,
     onClose,
     onConfirm,
     closeOnConfirm = true,
@@ -74,4 +74,6 @@ export default function CustomDialog(props: CustomDialogProps) {
       </DialogActions>
     </Dialog>
   );
-}
+};
+
+export default BaseDialog;

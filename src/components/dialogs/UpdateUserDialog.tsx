@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { FormGroup, FormLabel, Typography } from '@mui/material';
-import CustomDialog, { CustomDialogProps } from '@/components/CustomDialog';
 import CustomFormInput from '../CustomFormInput';
+import BaseDialog, { BaseDialogProps } from './BaseDialog';
+import { validateName } from '@/utils/validation';
 
-interface UpdateUserDialogProps extends CustomDialogProps {
+interface UpdateUserDialogProps extends BaseDialogProps {
   userEditData: UserListItem | undefined;
   onUpdateUser: (newName: string) => void;
 }
@@ -21,20 +22,8 @@ export default function UpdateUserDialog({ userEditData, onClose, onUpdateUser, 
     setNewName(e.target.value);
   };
 
-  const validateName = () => {
-    const nameRegex = /^[A-Za-z가-힣]{1,16}$/;
-    let errorMsg = '';
-    if (!newName) {
-      errorMsg = '이름을 입력하세요.';
-    } else if (!nameRegex.test(newName)) {
-      errorMsg = '이름을 올바르게 입력하세요.(숫자, 특수문자, 공백 입력 불가)';
-    }
-    setError(errorMsg);
-    return errorMsg === '';
-  };
-
   const handleConfirm = async () => {
-    const isValid = validateName();
+    const isValid = validateName(newName) === '';
     if (!isValid) return;
     await onUpdateUser(newName);
     resetFormData();
@@ -46,7 +35,7 @@ export default function UpdateUserDialog({ userEditData, onClose, onUpdateUser, 
   };
 
   return (
-    <CustomDialog title="사용자 수정" closeOnConfirm={false} onConfirm={handleConfirm} onClose={onClose} {...rest}>
+    <BaseDialog title="사용자 수정" closeOnConfirm={false} onConfirm={handleConfirm} onClose={onClose} {...rest}>
       <FormGroup>
         <FormLabel required sx={{ display: 'block', mb: 0.5 }}>
           아이디
@@ -64,6 +53,6 @@ export default function UpdateUserDialog({ userEditData, onClose, onUpdateUser, 
         helperText={error}
         required
       />
-    </CustomDialog>
+    </BaseDialog>
   );
 }
