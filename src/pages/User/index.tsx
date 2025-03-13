@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { lazy, useEffect, useState } from 'react';
 import { Divider, Typography } from '@mui/material';
 import UserService from '@/service/user/UserService';
-import CustomDataTable from '@/components/CustomDataTable';
-import { UserTableColumns } from '@/components/CustomDataTable/columns/UserTableColumns';
+import CustomDataGrid from '@/components/CustomDataGrid';
+import { UserTableColumns } from '@/components/CustomDataGrid/columns/UserGridColumns';
 import CustomButton from '@/components/CustomButton';
 import useDialog from '@/hooks/useDialog';
 
-const UpdateUserDialog = React.lazy(() => import('@/components/CustomDialog/UpdateUserDialog'));
-const CreateUserDialog = React.lazy(() => import('@/components/CustomDialog/CreateUserDialog'));
+const UpdateUserDialog = lazy(() => import('@/components/dialogs/UpdateUserDialog'));
+const CreateUserDialog = lazy(() => import('@/components/dialogs/CreateUserDialog'));
 
 export default function UserPage() {
   const [userListData, setUserListData] = useState<any>();
@@ -72,7 +72,7 @@ export default function UserPage() {
       <CustomButton variant="contained" onClick={openCreateDialog}>
         생성
       </CustomButton>
-      <CustomDataTable
+      <CustomDataGrid
         rows={userListData?.content}
         columns={tableColumns}
         totalPagesCount={userListData?.total_pages}

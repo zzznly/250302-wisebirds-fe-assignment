@@ -1,10 +1,9 @@
 import CampaignService from '@/service/campaigns/CampaignService';
 import { Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { CAMPAIGN_OBJECTIVES } from '@/constants';
 import { useAppStore } from '@/stores';
-import { CampaignTableColumns } from '@/components/CustomDataTable/columns/CampaignTableColumns';
-import CustomDataTable from '@/components/CustomDataTable';
+import { CampaignTableColumns } from '@/components/CustomDataGrid/columns/CampaignGridColumns';
+import CustomDataGrid from '@/components/CustomDataGrid';
 
 export default function CampaignPage() {
   const { userRole } = useAppStore();
@@ -59,9 +58,9 @@ export default function CampaignPage() {
       <Typography variant="h6" sx={{ py: 2 }}>
         캠페인 관리
       </Typography>
-      <CustomDataTable
-        columns={tableColumns}
+      <CustomDataGrid
         rows={tableRows}
+        columns={tableColumns}
         totalPagesCount={campaignData?.total_pages}
         onPageChange={newPage => setPage(newPage)}
       />
