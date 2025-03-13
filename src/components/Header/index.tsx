@@ -10,7 +10,7 @@ import CustomButton from '@/components/CustomButton';
 import { USER_ROLES } from '@/constants';
 import { useAppStore } from '@/stores';
 
-const pages = [
+const NAV_PAGES = [
   { name: '캠페인', path: '/' },
   { name: '사용자', path: '/user' },
 ];
@@ -18,15 +18,18 @@ const pages = [
 export default function Header() {
   const { userInfo, userRole, setUserRole } = useAppStore();
 
-  const Navigation = () => (
-    <>
-      {pages.map(page => (
-        <CustomButton key={page.name} href={page.path} color="white">
-          {page.name}
-        </CustomButton>
-      ))}
-    </>
-  );
+  const Navigation = () => {
+    const pages = userRole === 'admin' ? NAV_PAGES : NAV_PAGES.filter(page => page.path !== '/user');
+    return (
+      <>
+        {pages.map(page => (
+          <CustomButton key={page.name} href={page.path} color="white">
+            {page.name}
+          </CustomButton>
+        ))}
+      </>
+    );
+  };
 
   const UserMenu = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
