@@ -1,18 +1,16 @@
 import CampaignService from '@/service/campaigns/CampaignService';
 import { Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useAppStore } from '@/stores';
 import { CampaignTableColumns } from '@/components/CustomDataGrid/columns/CampaignGridColumns';
 import CustomDataGrid from '@/components/CustomDataGrid';
 
 export default function CampaignPage() {
-  const { userRole } = useAppStore();
   const [campaignData, setCampaignData] = useState<ListData<CampaignListItem>>();
   const [page, setPage] = useState(0);
 
-  const handleSwitchChange = (id: number, checked: boolean) => {
-    updateCampaignEnabledState(id, checked);
-  };
+  useEffect(() => {
+    fetchCampaignList(page);
+  }, [page]);
 
   const fetchCampaignList = async (page: number, size: number = 25) => {
     try {
@@ -46,11 +44,11 @@ export default function CampaignPage() {
     }
   };
 
-  useEffect(() => {
-    fetchCampaignList(page);
-  }, [page]);
+  const handleSwitchChange = (id: number, checked: boolean) => {
+    updateCampaignEnabledState(id, checked);
+  };
 
-  const tableColumns = CampaignTableColumns(userRole, handleSwitchChange);
+  const tableColumns = CampaignTableColumns(handleSwitchChange);
   const tableRows = campaignData?.content ?? [];
 
   return (
