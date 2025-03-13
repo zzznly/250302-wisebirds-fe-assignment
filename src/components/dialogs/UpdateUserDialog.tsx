@@ -3,6 +3,7 @@ import { FormGroup, FormLabel, Typography } from '@mui/material';
 import CustomFormInput from '../CustomFormInput';
 import BaseDialog, { BaseDialogProps } from './BaseDialog';
 import { validateName } from '@/utils/validation';
+import useFormValidation from '@/hooks/useFormValidation';
 
 interface UpdateUserDialogProps extends BaseDialogProps {
   userEditData: UserListItem | undefined;
@@ -10,28 +11,30 @@ interface UpdateUserDialogProps extends BaseDialogProps {
 }
 
 export default function UpdateUserDialog({ userEditData, onClose, onUpdateUser, ...rest }: UpdateUserDialogProps) {
-  const [newName, setNewName] = useState<string>(userEditData?.name || '');
-  const [error, setError] = useState<string>('');
+  const { formData, setFormData, errors, setErrors } = useFormValidation();
 
   useEffect(() => {
-    setNewName(userEditData?.name || '');
+    setFormData({ ...formData, name: userEditData?.name || '' });
   }, [userEditData]);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setError('');
-    setNewName(e.target.value);
+    setErrors({ ...errors, name: '' });
+    setFormData({ ...formData, name: e.target.value });
   };
 
   const handleConfirm = async () => {
-    const isValid = validateName(newName) === '';
-    if (!isValid) return;
-    await onUpdateUser(newName);
-    resetFormData();
+    const validateNameError = validateName(formData.name);
+    if (validateNameError) {
+      setErrors({ ...errors, name: validateNameError });
+      return;
+    }
+    await onUpdateUser(formData.name);
+    resetFormInputData();
   };
 
-  const resetFormData = () => {
-    setNewName(userEditData?.name || '');
-    setError('');
+  const resetFormInputData = () => {
+    setFormData({ ...formData, name: userEditData?.name || '' });
+    setErrors({ ...errors, name: '' });
   };
 
   return (
@@ -47,10 +50,10 @@ export default function UpdateUserDialog({ userEditData, onClose, onUpdateUser, 
         name="name"
         placeholder="이름을 입력하세요."
         type="text"
-        value={newName}
+        value={formData.name}
         onChange={handleNameChange}
-        error={!!error}
-        helperText={error}
+        error={!!errors.name}
+        helperText={errors.name}
         required
       />
     </BaseDialog>

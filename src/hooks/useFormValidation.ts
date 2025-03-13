@@ -1,19 +1,15 @@
 import { validateEmail, validateName, validatePassword, validateRepeatPassword } from '@/utils/validation';
 import { useState } from 'react';
 
+const DEFAULT_FORM_DATA = {
+  email: '',
+  password: '',
+  repeat_password: '',
+  name: '',
+};
 export default function useFormValidation() {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    repeat_password: '',
-    name: '',
-  });
-  const [errors, setErrors] = useState({
-    email: '',
-    password: '',
-    repeat_password: '',
-    name: '',
-  });
+  const [formData, setFormData] = useState(DEFAULT_FORM_DATA);
+  const [errors, setErrors] = useState(DEFAULT_FORM_DATA);
 
   const checkValidateForm = async () => {
     const emailError = await validateEmail(formData.email);
@@ -50,5 +46,5 @@ export default function useFormValidation() {
     setErrors({ email: '', password: '', repeat_password: '', name: '' });
   };
 
-  return { formData, errors, checkValidateForm, resetFormData, handleFormChange };
+  return { formData, setFormData, errors, setErrors, checkValidateForm, resetFormData, handleFormChange };
 }
