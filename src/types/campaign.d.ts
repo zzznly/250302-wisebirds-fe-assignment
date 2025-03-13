@@ -3,9 +3,9 @@ interface CampaignListItem {
   name: string;
   enabled: boolean;
   campaign_objective: keyof typeof CAMPAIGN_OBJECTIVES;
-  impressions: number;
-  clicks: number;
+  impressions: string | number;
+  clicks: string | number;
   ctr: string;
-  video_views: number;
+  video_views: string | number;
   vtr: string;
 }
