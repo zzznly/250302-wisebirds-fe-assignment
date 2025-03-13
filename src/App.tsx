@@ -1,8 +1,9 @@
 import { RouterProvider } from 'react-router-dom';
 import { router } from '@/routes';
-import { useEffect } from 'react';
+import { lazy, useEffect } from 'react';
 import { useAppStore } from '@/stores';
-import GlobalErrorDialog from './components/CustomDialog/GlobalErrorDialog';
+
+const GlobalErrorDialog = lazy(() => import('@/components/dialogs/GlobalErrorDialog'));
 
 export default function App() {
   const fetchUserInfo = useAppStore(state => state.fetchUserInfo);
