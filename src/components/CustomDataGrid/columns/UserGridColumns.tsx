@@ -3,13 +3,13 @@ import { Button } from '@mui/material';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
 interface UserTableColumnsProps {
-  openDialog: () => void;
+  openEditDialog: () => void;
   onEditRowData: (row: any) => void;
 }
-export const UserTableColumns = ({ openDialog, onEditRowData }: UserTableColumnsProps): GridColDef[] => {
+export const UserTableColumns = ({ openEditDialog, onEditRowData }: UserTableColumnsProps): GridColDef[] => {
   const renderEditButton = (params: GridRenderCellParams<any, any>) => {
     const onClickEditButton = () => {
-      openDialog();
+      openEditDialog();
       onEditRowData(params.row);
     };
     return <Button onClick={onClickEditButton}>수정</Button>;
