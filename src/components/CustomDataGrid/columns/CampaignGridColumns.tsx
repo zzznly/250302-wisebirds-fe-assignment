@@ -4,7 +4,7 @@ import { Switch } from '@mui/material';
 import { useAppStore } from '@/stores';
 
 export const CampaignTableColumns = (handleSwitchChange: (id: number, checked: boolean) => void): GridColDef[] => {
-  const { userRole } = useAppStore();
+  const userRole = useAppStore(state => state.userRole);
 
   const renderEnabledSwitch = (params: GridRenderCellParams<any, any>) => (
     <Switch

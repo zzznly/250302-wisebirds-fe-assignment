@@ -4,7 +4,8 @@ import useDialog from '@/hooks/useDialog';
 import BaseDialog from './BaseDialog';
 
 export default function GlobalErrorDialog() {
-  const { globalErrorMessage, setGlobalErrorMessage } = useAppStore();
+  const globalErrorMessage = useAppStore(state => state.globalErrorMessage);
+  const setGlobalErrorMessage = useAppStore(state => state.setGlobalErrorMessage);
   const { closeDialog } = useDialog();
 
   const handleClose = () => {

@@ -28,7 +28,7 @@ export default class Service {
   }
 
   private async handleResponseError(error: AxiosError<{ message: string }>): Promise<never> {
-    const { setGlobalErrorMessage } = useAppStore();
+    const setGlobalErrorMessage = useAppStore(state => state.setGlobalErrorMessage);
 
     const DEFAULT_GLOBAL_ERROR_MSG =
       '에러가 발생했습니다.<br/>같은 현상이 발생하면 고객센터로 문의 바랍니다.<br/><br/>*고객센터<br/>- email: helpdesk@wisebirds.ai';

@@ -7,7 +7,8 @@ import { useAppStore } from '@/stores';
 const GlobalErrorDialog = lazy(() => import('@/components/dialogs/GlobalErrorDialog'));
 
 export default function App() {
-  const { setUserInfo } = useAppStore();
+  const setUserInfo = useAppStore(state => state.setUserInfo);
+
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {

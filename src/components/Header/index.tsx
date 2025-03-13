@@ -16,7 +16,9 @@ const NAV_PAGES = [
 ];
 
 export default function Header() {
-  const { userInfo, userRole, setUserRole } = useAppStore();
+  const userInfo = useAppStore(state => state.userInfo);
+  const userRole = useAppStore(state => state.userRole);
+  const setUserRole = useAppStore(state => state.setUserRole);
 
   const Navigation = () => {
     const pages = userRole === 'admin' ? NAV_PAGES : NAV_PAGES.filter(page => page.path !== '/user');
