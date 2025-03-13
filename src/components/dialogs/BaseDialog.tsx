@@ -6,10 +6,10 @@ import CustomButton from '../CustomButton';
 
 export interface BaseDialogProps extends DialogProps {
   title?: string & React.ReactNode;
-  cancelText?: string;
+  closeText?: string;
   confirmText?: string;
+  onClose: () => void;
   onConfirm?: () => void;
-  onClose?: () => void;
   renderActions?: () => React.ReactNode;
   closeOnConfirm?: boolean;
 }
@@ -21,7 +21,7 @@ const BaseDialog = (props: BaseDialogProps) => {
     onClose,
     onConfirm,
     closeOnConfirm = true,
-    cancelText = '취소',
+    closeText = '취소',
     confirmText = '확인',
     children,
     renderActions,
@@ -30,22 +30,35 @@ const BaseDialog = (props: BaseDialogProps) => {
 
   const handleConfirm = () => {
     if (closeOnConfirm) {
-      onClose?.();
+      onClose();
     }
     onConfirm?.();
   };
 
-  const handleClose = () => {
-    onClose?.();
-  };
+  const renderDefaultActions = () => (
+    <>
+      {closeOnConfirm ? (
+        <CustomButton onClick={handleConfirm} variant="contained" type="submit">
+          {confirmText}
+        </CustomButton>
+      ) : (
+        <>
+          <CustomButton onClick={onClose} variant="outlined">
+            {closeText}
+          </CustomButton>
+          <CustomButton onClick={handleConfirm} variant="contained" type="submit">
+            {confirmText}
+          </CustomButton>
+        </>
+      )}
+    </>
+  );
 
   return (
     <Dialog
+      {...rest}
       open={open}
       onClose={onClose}
-      sx={{
-        width: '100%',
-      }}
       slotProps={{
         paper: {
           sx: {
@@ -54,24 +67,10 @@ const BaseDialog = (props: BaseDialogProps) => {
           },
         },
       }}
-      {...rest}
     >
       {title && <DialogTitle>{title}</DialogTitle>}
       <DialogContent>{children}</DialogContent>
-      <DialogActions>
-        {renderActions ? (
-          renderActions()
-        ) : (
-          <>
-            <CustomButton onClick={handleClose} variant="outlined">
-              {cancelText}
-            </CustomButton>
-            <CustomButton onClick={handleConfirm} variant="contained" type="submit">
-              {confirmText}
-            </CustomButton>
-          </>
-        )}
-      </DialogActions>
+      <DialogActions>{renderActions ? renderActions() : renderDefaultActions()}</DialogActions>
     </Dialog>
   );
 };
