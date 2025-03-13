@@ -23,7 +23,7 @@ export default function Header() {
     return (
       <>
         {pages.map(page => (
-          <CustomButton key={page.name} href={page.path} color="white">
+          <CustomButton key={page.name} href={page.path} color="inherit">
             {page.name}
           </CustomButton>
         ))}

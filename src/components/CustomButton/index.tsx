@@ -4,9 +4,9 @@ type CustomButtonProps = ButtonProps & {
   children: React.ReactNode;
 };
 
-export default function CustomButton({ children, ...props }: CustomButtonProps) {
+export default function CustomButton({ color, children, ...props }: CustomButtonProps) {
   return (
-    <Button {...props} sx={{ p: 0, textTransform: 'none', height: '40px' }}>
+    <Button {...props} sx={{ p: 0, textTransform: 'none', height: '40px', color }}>
       {children}
     </Button>
   );
