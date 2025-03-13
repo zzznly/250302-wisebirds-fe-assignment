@@ -1,60 +1,17 @@
-import { useState } from 'react';
 import BaseDialog, { BaseDialogProps } from '@/components/dialogs/BaseDialog';
 import CustomFormInput from '../CustomFormInput';
-import { validateEmail, validateName, validatePassword, validateRepeatPassword } from '@/utils/validation';
+import useFormValidation from '@/hooks/useFormValidation';
 
 interface CreateUserDialogProps extends BaseDialogProps {
   onCreateUser: (data: FormData) => void;
 }
 
 export default function CreateUserDialog({ onCreateUser, onClose, onConfirm, ...rest }: CreateUserDialogProps) {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    repeat_password: '',
-    name: '',
-  });
-
-  const [errors, setErrors] = useState({
-    email: '',
-    password: '',
-    repeat_password: '',
-    name: '',
-  });
-
-  const handleFormChange = (field: keyof typeof formData) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: e.target.value,
-    }));
-    setErrors(prev => ({
-      ...prev,
-      [field]: '',
-    }));
-  };
-
-  const validateForm = async () => {
-    const emailError = await validateEmail(formData.email);
-    const passwordError = validatePassword(formData.password);
-    const repeatPasswordError = validateRepeatPassword(formData.password, formData.repeat_password);
-    const nameError = validateName(formData.name);
-    let isValid;
-
-    const newErrors = {
-      email: emailError,
-      password: passwordError,
-      repeat_password: repeatPasswordError,
-      name: nameError,
-    };
-    setErrors(newErrors);
-
-    isValid = Object.values(newErrors).every(errorMsg => errorMsg === '');
-    return isValid;
-  };
+  const { formData, errors, resetFormData, checkValidateForm, handleFormChange } = useFormValidation();
 
   const handleSubmit = async () => {
     try {
-      const isValidForm = await validateForm();
+      const isValidForm = await checkValidateForm();
       if (!isValidForm) return;
 
       const newFormData = new FormData();
@@ -72,11 +29,6 @@ export default function CreateUserDialog({ onCreateUser, onClose, onConfirm, ...
   const handleClose = () => {
     onClose?.();
     resetFormData();
-  };
-
-  const resetFormData = () => {
-    setFormData({ email: '', password: '', repeat_password: '', name: '' });
-    setErrors({ email: '', password: '', repeat_password: '', name: '' });
   };
 
   return (
