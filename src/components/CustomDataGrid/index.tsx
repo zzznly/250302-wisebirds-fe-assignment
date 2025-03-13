@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
-import { Pagination, SxProps } from '@mui/material';
+import { DataGrid, DataGridProps, GridColDef, GridPaginationModel, GridRowModel } from '@mui/x-data-grid';
+import { Pagination } from '@mui/material';
 
-interface CustomDataTableProps {
-  rows: any[];
+interface CustomDataGridProps extends DataGridProps {
+  rows: GridRowModel[];
   columns: GridColDef[];
   totalPagesCount?: number;
-  sx?: SxProps;
   page?: number;
   pageSize?: number;
   onPageChange?: (newPage: number) => void;
 }
 
-export default function CustomDataTable({
-  rows,
-  columns,
+export default function CustomDataGrid({
   totalPagesCount = 1,
-  sx,
   page = 0,
   pageSize = 25,
   onPageChange,
-}: CustomDataTableProps) {
+  rows,
+  columns,
+  ...rest
+}: CustomDataGridProps) {
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
     page,
     pageSize,
@@ -42,14 +41,11 @@ export default function CustomDataTable({
 
   return (
     <DataGrid
+      {...rest}
       rows={rows}
       columns={columns}
       paginationModel={paginationModel}
       disableRowSelectionOnClick
-      onPaginationModelChange={model => {
-        setPaginationModel(model);
-        onPageChange?.(model.page);
-      }}
       slots={{
         pagination: () => (
           <Pagination
@@ -60,7 +56,6 @@ export default function CustomDataTable({
           />
         ),
       }}
-      sx={sx}
     />
   );
 }
