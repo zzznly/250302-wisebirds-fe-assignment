@@ -5,18 +5,21 @@ import Option, { MenuItemProps } from '@mui/material/MenuItem';
 type CustomSelectProps = SelectProps & {
   children?: React.ReactNode;
 };
+
+export default function CustomSelect({ children, sx, ...rest }: CustomSelectProps) {
+  return (
+    <Select sx={{ backgroundColor: 'white', minWidth: 120, ...sx }} {...rest}>
+      {children}
+    </Select>
+  );
+}
+CustomSelect.Option = CustomSelectOption;
+
 type OptionProps = MenuItemProps & OptionHTMLAttributes<HTMLOptionElement>;
-
-const CustomSelect = ({ children, sx, ...rest }: CustomSelectProps) => (
-  <Select sx={{ backgroundColor: 'white', minWidth: 120, ...sx }} {...rest}>
-    {children}
-  </Select>
-);
-
-CustomSelect.Option = ({ value, selected, children, ...rest }: OptionProps) => (
-  <Option value={value} selected={selected} {...rest}>
-    {children}
-  </Option>
-);
-
-export default CustomSelect;
+function CustomSelectOption({ value, children, ...rest }: OptionProps) {
+  return (
+    <Option value={value} {...rest}>
+      {children}
+    </Option>
+  );
+}

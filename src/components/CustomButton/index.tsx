@@ -1,8 +1,8 @@
 import { Button, ButtonProps } from '@mui/material';
 
-interface CustomButtonProps extends ButtonProps {
+type CustomButtonProps = ButtonProps & {
   children: React.ReactNode;
-}
+};
 
 export default function CustomButton({ children, ...props }: CustomButtonProps) {
   return (
