@@ -6,7 +6,7 @@ import { UserTableColumns } from '@/components/CustomDataGrid/columns/UserGridCo
 import CustomButton from '@/components/CustomButton';
 import useDialog from '@/hooks/useDialog';
 
-const UpdateUserDialog = lazy(() => import('@/components/dialogs/UpdateUserDialog'));
+const EditUserDialog = lazy(() => import('@/components/dialogs/EditUserDialog'));
 const CreateUserDialog = lazy(() => import('@/components/dialogs/CreateUserDialog'));
 
 export default function UserPage() {
@@ -61,7 +61,7 @@ export default function UserPage() {
     openDialog: openCreateDialog,
     closeDialog: closeCreateDialog,
   } = useDialog();
-  const tableColumns = UserTableColumns({ openDialog: openEditDialog, onEditRowData: handleEditRowData });
+  const tableColumns = UserTableColumns({ openEditDialog, onEditRowData: handleEditRowData });
 
   return (
     <>
@@ -79,7 +79,7 @@ export default function UserPage() {
         onPageChange={newPage => setPage(newPage)}
         sx={{ mt: 2 }}
       />
-      <UpdateUserDialog
+      <EditUserDialog
         open={isEditDialogOpen}
         onClose={closeEditDialog}
         userEditData={userEditData}

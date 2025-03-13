@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { FormGroup, FormLabel, Typography } from '@mui/material';
 import CustomFormInput from '../CustomFormInput';
 import BaseDialog, { BaseDialogProps } from './BaseDialog';
 import { validateName } from '@/utils/validation';
 import useFormValidation from '@/hooks/useFormValidation';
 
-interface UpdateUserDialogProps extends BaseDialogProps {
+interface EditUserDialogProps extends BaseDialogProps {
   userEditData: UserListItem | undefined;
   onUpdateUser: (newName: string) => void;
 }
 
-export default function UpdateUserDialog({ userEditData, onClose, onUpdateUser, ...rest }: UpdateUserDialogProps) {
+export default function EditUserDialog({ userEditData, onClose, onUpdateUser, ...rest }: EditUserDialogProps) {
   const { formData, setFormData, errors, setErrors } = useFormValidation();
 
   useEffect(() => {
