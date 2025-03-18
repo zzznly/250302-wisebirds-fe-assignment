@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import { useAppStore } from '@/stores';
 export default class Service {
   service: AxiosInstance;
@@ -27,15 +27,17 @@ export default class Service {
     return response;
   }
 
-  private async handleResponseError(error: AxiosError): Promise<never> {
-    console.error('Response error:', error);
+  private async handleResponseError(error: AxiosError<{ message: string }>): Promise<never> {
+    const setGlobalErrorMessage = useAppStore(state => state.setGlobalErrorMessage);
 
-    let message = '에러가 발생했습니다.';
-    if (error.response?.data && (error.response.data as any).message) {
-      message = (error.response.data as any).message;
+    const DEFAULT_GLOBAL_ERROR_MSG =
+      '에러가 발생했습니다.<br/>같은 현상이 발생하면 고객센터로 문의 바랍니다.<br/><br/>*고객센터<br/>- email: helpdesk@wisebirds.ai';
+    let responseErrorMessage = DEFAULT_GLOBAL_ERROR_MSG;
+
+    if (error.response?.data && error.response.data.message) {
+      responseErrorMessage = error.response.data.message;
     }
-    // 전역 에러 스토어에 에러 메시지 저장 -> 모달에서 감지
-    useAppStore.getState().setError(message);
+    setGlobalErrorMessage(responseErrorMessage);
 
     return Promise.reject(error);
   }

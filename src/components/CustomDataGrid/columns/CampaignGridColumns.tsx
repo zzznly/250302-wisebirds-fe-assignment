@@ -1,16 +1,18 @@
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { CAMPAIGN_OBJECTIVES } from '@/constants';
 import { Switch } from '@mui/material';
+import { useAppStore } from '@/stores';
 
-export const CampaignTableColumns = (
-  userRole: string,
-  handleSwitchChange: (id: number, checked: boolean) => void
-): GridColDef[] => {
+export const CampaignTableColumns = (handleSwitchChange: (id: number, checked: boolean) => void): GridColDef[] => {
+  const userRole = useAppStore(state => state.userRole);
+
   const renderEnabledSwitch = (params: GridRenderCellParams<any, any>) => (
     <Switch
-      checked={Boolean(params.row.enabled)}
+      checked={!!params.row.enabled}
       disabled={userRole === 'viewer'}
-      onChange={(e, checked) => handleSwitchChange(params.row.id, checked)}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>, checked: boolean) =>
+        handleSwitchChange(params.row.id, checked)
+      }
     />
   );
 

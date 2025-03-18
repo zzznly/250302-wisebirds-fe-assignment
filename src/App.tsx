@@ -1,15 +1,25 @@
 import { RouterProvider } from 'react-router-dom';
 import { router } from '@/routes';
-import { useEffect } from 'react';
+import { lazy, useEffect } from 'react';
+import UserService from '@/service/user/UserService';
 import { useAppStore } from '@/stores';
-import GlobalErrorDialog from './components/CustomDialog/GlobalErrorDialog';
+
+const GlobalErrorDialog = lazy(() => import('@/components/dialogs/GlobalErrorDialog'));
 
 export default function App() {
-  const fetchUserInfo = useAppStore(state => state.fetchUserInfo);
+  const setUserInfo = useAppStore(state => state.setUserInfo);
 
   useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const { data } = await UserService.getUserInfo();
+        setUserInfo(data);
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+      }
+    };
     fetchUserInfo();
-  }, [fetchUserInfo]);
+  }, []);
 
   return (
     <>

@@ -1,32 +1,37 @@
 import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
 import Container from '@mui/material/Container';
-import SelectBox from '@/components/SelectBox';
+import Toolbar from '@mui/material/Toolbar';
+import Box from '@mui/material/Box';
+import Menu from '@mui/material/Menu';
+import Typography from '@mui/material/Typography';
+import CustomSelect from '@/components/CustomSelect';
+import CustomButton from '@/components/CustomButton';
 import { USER_ROLES } from '@/constants';
 import { useAppStore } from '@/stores';
-import CustomButton from '@/components/CustomButton';
 
-const pages = [
+const NAV_PAGES = [
   { name: '캠페인', path: '/' },
   { name: '사용자', path: '/user' },
 ];
 
 export default function Header() {
-  const { userInfo, userRole, setUserRole } = useAppStore();
+  const userInfo = useAppStore(state => state.userInfo);
+  const userRole = useAppStore(state => state.userRole);
+  const setUserRole = useAppStore(state => state.setUserRole);
 
-  const Navigation = () => (
-    <>
-      {pages.map(page => (
-        <CustomButton key={page.name} href={page.path} color="white">
-          {page.name}
-        </CustomButton>
-      ))}
-    </>
-  );
+  const Navigation = () => {
+    const pages = userRole === 'admin' ? NAV_PAGES : NAV_PAGES.filter(page => page.path !== '/user');
+    return (
+      <>
+        {pages.map(page => (
+          <CustomButton key={page.name} href={page.path} color="inherit">
+            {page.name}
+          </CustomButton>
+        ))}
+      </>
+    );
+  };
 
   const UserMenu = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -53,13 +58,13 @@ export default function Header() {
   };
 
   const RoleSelect = () => (
-    <SelectBox value={userRole}>
+    <CustomSelect value={userRole}>
       {USER_ROLES.map(role => (
-        <SelectBox.Option key={role.value} value={role.value} onClick={() => setUserRole(role.value)}>
+        <CustomSelect.Option key={role.value} value={role.value} onClick={() => setUserRole(role.value)}>
           {role.label}
-        </SelectBox.Option>
+        </CustomSelect.Option>
       ))}
-    </SelectBox>
+    </CustomSelect>
   );
 
   return (

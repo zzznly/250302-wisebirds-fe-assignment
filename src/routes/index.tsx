@@ -1,11 +1,10 @@
 import { Suspense, lazy } from 'react';
-import { Outlet, ScrollRestoration, createBrowserRouter } from 'react-router-dom';
+import { Navigate, Outlet, ScrollRestoration, createBrowserRouter } from 'react-router-dom';
 import MainLayout from '@/layouts/MainLayout';
 import Loading from '@/components/Loading';
 
 const CampaignPage = lazy(() => import('@/pages/Campaign'));
 const UserPage = lazy(() => import('@/pages/User'));
-const NotFound = lazy(() => import('@/pages/NotFound'));
 
 const Root = () => {
   return (
@@ -27,7 +26,7 @@ const routes = [
       { path: 'user', element: <UserPage /> },
     ],
   },
-  { path: '*', element: <NotFound /> },
+  { path: '*', element: <Navigate to="/" /> },
 ];
 
 export const router = createBrowserRouter(routes);

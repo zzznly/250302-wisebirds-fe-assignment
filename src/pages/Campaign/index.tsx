@@ -1,19 +1,16 @@
 import CampaignService from '@/service/campaigns/CampaignService';
 import { Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { CAMPAIGN_OBJECTIVES } from '@/constants';
-import { useAppStore } from '@/stores';
-import { CampaignTableColumns } from '@/components/CustomDataTable/columns/CampaignTableColumns';
-import CustomDataTable from '@/components/CustomDataTable';
+import { CampaignTableColumns } from '@/components/CustomDataGrid/columns/CampaignGridColumns';
+import CustomDataGrid from '@/components/CustomDataGrid';
 
 export default function CampaignPage() {
-  const { userRole } = useAppStore();
   const [campaignData, setCampaignData] = useState<ListData<CampaignListItem>>();
   const [page, setPage] = useState(0);
 
-  const handleSwitchChange = (id: number, checked: boolean) => {
-    updateCampaignEnabledState(id, checked);
-  };
+  useEffect(() => {
+    fetchCampaignList(page);
+  }, [page]);
 
   const fetchCampaignList = async (page: number, size: number = 25) => {
     try {
@@ -47,11 +44,11 @@ export default function CampaignPage() {
     }
   };
 
-  useEffect(() => {
-    fetchCampaignList(page);
-  }, [page]);
+  const handleSwitchChange = (id: number, checked: boolean) => {
+    updateCampaignEnabledState(id, checked);
+  };
 
-  const tableColumns = CampaignTableColumns(userRole, handleSwitchChange);
+  const tableColumns = CampaignTableColumns(handleSwitchChange);
   const tableRows = campaignData?.content ?? [];
 
   return (
@@ -59,9 +56,9 @@ export default function CampaignPage() {
       <Typography variant="h6" sx={{ py: 2 }}>
         캠페인 관리
       </Typography>
-      <CustomDataTable
-        columns={tableColumns}
+      <CustomDataGrid
         rows={tableRows}
+        columns={tableColumns}
         totalPagesCount={campaignData?.total_pages}
         onPageChange={newPage => setPage(newPage)}
       />
